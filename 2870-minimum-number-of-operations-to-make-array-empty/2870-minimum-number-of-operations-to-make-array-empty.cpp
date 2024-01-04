@@ -14,20 +14,11 @@ public:
             if(num == 1){
                 return -1;
             }
-            else if(num%2 == 0 && num%3 == 1){
-                ans += (num/3)+1;
-            }
-            else if(num%2==1 && num%3 == 2){
-                ans += (num/3)+1;
-            }
-            else if(num % 3 == 1 && num % 2 == 1){
-                ans += (num/3)+1;
-            }
-            else if(num % 3 == 2 && num % 2 == 0){
-                ans += (num/3)+1;
-            }
             else if(num %3 == 0){
                 ans += (num/3);
+            }
+            else{
+                ans += (num/3)+1;
             }
             
         }
