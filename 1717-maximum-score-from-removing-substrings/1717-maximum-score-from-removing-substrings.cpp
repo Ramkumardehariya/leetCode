@@ -1,37 +1,44 @@
 class Solution {
 public:
-    int solve(string &s , int x, int y, string temp){
-        int a = 0;
-        int b = 0;
-        int result = 0;
-
-        for(int i = 0; i<s.size(); i++){
-            if(s[i] == temp[0]){
-                a++;
-            }
-            else if(s[i] == temp[1]){
-                b++;
-                if(a > 0){
-                    result += x;
-                    a--;
-                    b--;
-                }
-            }
-            else{
-                result += min(a,b)*y;
-                a = 0;
-                b = 0;
-            }
-        }
-        result += min(a,b)*y;
-        return result;
-    }
     int maximumGain(string s, int x, int y) {
-        if(x > y){
-            return solve(s, x, y, "ab");
+        int totalPoints = 0;
+
+        if (x > y) {
+            // Remove "ab" first (higher points), then "ba"
+            totalPoints += removeSubstring(s, "ab", x);
+            totalPoints += removeSubstring(s, "ba", y);
+        } else {
+            // Remove "ba" first (higher or equal points), then "ab"
+            totalPoints += removeSubstring(s, "ba", y);
+            totalPoints += removeSubstring(s, "ab", x);
         }
-        else{
-            return solve(s, y, x, "ba");
+
+        return totalPoints;
+    }
+
+    int removeSubstring(string& inputString, string targetSubstring,
+                        int pointsPerRemoval) {
+        int totalPoints = 0;
+        int writeIndex = 0;
+
+        // Iterate through the string
+        for (int readIndex = 0; readIndex < inputString.size(); readIndex++) {
+            // Add the current character
+            inputString[writeIndex++] = inputString[readIndex];
+
+            // Check if we've written at least two characters and
+            // they match the target substring
+            if (writeIndex > 1 &&
+                inputString[writeIndex - 2] == targetSubstring[0] &&
+                inputString[writeIndex - 1] == targetSubstring[1]) {
+                writeIndex -= 2;  // Move write index back to remove the match
+                totalPoints += pointsPerRemoval;
+            }
         }
+
+        // Trim the string to remove any leftover characters
+        inputString.erase(inputString.begin() + writeIndex, inputString.end());
+
+        return totalPoints;
     }
 };
