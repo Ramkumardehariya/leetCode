@@ -1,13 +1,13 @@
 class Solution {
 public:
     bool isPowerOfTwo(int n) {
-        if(n == 1){
-            return true;
-        }
-        if(n%2 != 0 || n < 1){
-            return false;
-        }
+        for(int i = 0; i<=30; i++){
+            int ans = pow(2,i);
 
-        return isPowerOfTwo(n/2);
+            if(ans == n){
+                return true;
+            }
+        }
+        return false;
     }
 };
