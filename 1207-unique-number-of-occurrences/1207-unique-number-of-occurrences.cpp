@@ -1,24 +1,31 @@
 class Solution {
 public:
     bool uniqueOccurrences(vector<int>& arr) {
-        unordered_map<int,int> mp;
-
-        for(int i = 0; i<arr.size(); i++){
-            mp[arr[i]]++;
-        }
         vector<int> ans;
-        for(auto it : mp){
-            ans.push_back(it.second);
-        }
 
-        sort(ans.begin(), ans.end());
+        set<int> st;
+        int count = 1;
+        sort(arr.begin(), arr.end());
 
-        for(int i = 0; i<ans.size()-1; i++){
-            if(ans[i] == ans[i+1]){
-                return false;
+        for(int i = 0; i<arr.size()-1; i++){
+            if(arr[i] == arr[i+1]){
+                count++;
+            }
+            else{
+                int s = st.size();
+                st.insert(count);
+                if(s == st.size()){
+                    return false;
+                }
+                count = 1;
             }
         }
-
+        int s = st.size();
+        st.insert(count);
+        if(s == st.size()){
+            return false;
+        }
+        
         return true;
     }
 };
