@@ -1,22 +1,24 @@
 class Solution {
 public:
     string largestGoodInteger(string num) {
-        priority_queue<string> pq;
+        int maxi = -1;
 
         for(int i = 1; i<num.size()-1; i++){
-            if(num[i-1] == num[i] && num[i] == num[i+1]){
-                string temp = "";
-                temp += num[i];
-                temp += num[i-1];
-                temp += num[i+1];
-
-                pq.push(temp);
+            if(num[i] == num[i+1] && num[i] == num[i-1]){
+                int temp = num[i]-'0';
+                maxi = max(temp, maxi);
             }
         }
-        if(pq.empty()){
-            return "";
+
+        string ans = "";
+        if(maxi == -1){
+            return ans;
         }
 
-        return pq.top();
+        for(int i = 0; i<3; i++){
+            ans += (maxi+'0');
+        }
+
+        return ans;
     }
 };
