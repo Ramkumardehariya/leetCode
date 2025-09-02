@@ -43,10 +43,8 @@ public:
             count++;
         }
 
-        if(curr != NULL){
-            head->next = reverseKGroup(curr, k);
-        }
-
+        head->next = reverseKGroup(curr, k);
+        
         return prev;
     }
 };
