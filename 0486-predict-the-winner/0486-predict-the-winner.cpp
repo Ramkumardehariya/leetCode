@@ -1,33 +1,26 @@
 class Solution {
 public:
-
-    int solve(vector<int> &nums, int i, int j, int chance, vector<vector<vector<int>>> &dp){
+    int solve(vector<int> &nums, int i , int j){
         if(i > j){
             return 0;
         }
-        
-        if(dp[i][j][chance] != -1){
-            return dp[i][j][chance];
+        if(i == j){
+            return nums[i];
         }
 
-        if(chance == 0){
-            return dp[i][j][chance] = max(nums[i] + solve(nums, i+1, j, 1, dp) , nums[j] + solve(nums, i, j-1, 1, dp));
-        }
-        else{
-            return dp[i][j][chance] = min(solve(nums, i+1, j, 0, dp), solve(nums, i, j-1, 0, dp));
-        }
+        int op1 = nums[i] + min(solve(nums, i+2, j), solve(nums, i+1, j-1));
+        int op2 = nums[j] + min(solve(nums, i, j-2), solve(nums, i+1, j-1));
+
+        return max(op1, op2);
     }
-    bool PredictTheWinner(vector<int>& nums) {
-        int n = nums.size();
-        long long two = 0;
-
-        for(int i= 0; i<n; i++){
-            two += nums[i];
+    bool predictTheWinner(vector<int>& nums) {
+        int p1Score = solve(nums, 0, nums.size()-1);
+        int totalSum = 0;
+        for(int i = 0; i<nums.size(); i++){
+            totalSum += nums[i];
         }
+        int p2Score = totalSum-p1Score;
 
-        vector<vector<vector<int>>> dp(n, vector<vector<int>> (n, vector<int> (2, -1)));
-        long long one = solve(nums, 0, n-1, 0, dp);
-        two -= one;
-        return one >= two;
+        return p1Score >= p2Score;
     }
 };
