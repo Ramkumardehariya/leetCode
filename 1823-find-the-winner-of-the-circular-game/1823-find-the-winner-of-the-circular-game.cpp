@@ -1,9 +1,13 @@
 class Solution {
 public:
-    static int findTheWinner(int n, int k) {
-        int winner=1;
-        for(int i=2; i<=n; i++)
-            winner=(winner+(k-1))%i+1;
-        return winner;
+    int solve(int n, int k){
+        if(n == 0){
+            return 0;
+        }
+
+        return (solve(n-1,k)+k)%n;
+    }
+    int findTheWinner(int n, int k) {
+        return solve(n, k)+1;
     }
 };
