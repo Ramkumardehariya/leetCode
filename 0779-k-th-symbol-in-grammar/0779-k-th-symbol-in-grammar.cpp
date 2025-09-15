@@ -1,18 +1,28 @@
 class Solution {
 public:
     int kthGrammar(int n, int k) {
-        if(k==1 && n == 1){
+        if(n == 1){
             return 0;
         }
 
-        int mid = pow(2,n-1)/2;
+        int parent = kthGrammar(n-1, (k+1)/2);
 
-        if(k <= mid){
-            return kthGrammar(n-1, k);
+        if(parent == 0){
+            if(k&1){
+                return 0;
+            }
+            else{
+                return 1;
+            }
         }
         else{
-            return !kthGrammar(n-1, k-mid);
+            //parent == 1
+            if(k&1){
+                return 1;
+            }
+            else{
+                return 0;
+            }
         }
-
     }
 };
