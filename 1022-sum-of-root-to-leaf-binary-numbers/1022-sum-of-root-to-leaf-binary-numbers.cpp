@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int val = 0;
+
+    void method(TreeNode* root, string &sum) {
+        if (!root) return;
+
+        sum.push_back(root->val + '0');
+
+        if (!root->left && !root->right) {
+            val += stoi(sum, nullptr, 2); // base 2
+        } else {
+            method(root->left, sum);
+            method(root->right, sum);
+        }
+
+        sum.pop_back(); // backtrack
+    }
+
+    int sumRootToLeaf(TreeNode* root) {
+        string sum = "";
+        method(root, sum);
+        return val;
+    }
+};
